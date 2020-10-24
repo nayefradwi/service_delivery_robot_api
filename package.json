@@ -1,0 +1,16 @@
+{
+  "name": "Senior_project_node_server",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "pytalk": "^1.0.5",
+    "python-shell": "^2.0.2"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "devDependencies": {
+    "socket.io": "^2.3.0"
+  }
+}
