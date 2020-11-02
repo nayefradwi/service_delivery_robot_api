@@ -2,8 +2,13 @@
   "name": "Senior_project_node_server",
   "version": "1.0.0",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firebase-admin": "^9.3.0",
     "http": "0.0.1-security",
+    "mongoose": "^5.10.11",
     "pytalk": "^1.0.5",
     "python-shell": "^2.0.2"
   },

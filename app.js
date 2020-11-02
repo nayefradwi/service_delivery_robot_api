@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const io = require("./api/services/SocketIoService")
-const spawn = require('child_process').spawn;
+require("dotenv").config()
 
 
 const socketIO = new io(app);
