@@ -10,6 +10,10 @@ nurseSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    fcmToken:{
+        type:String,
+        required: true,
+    },
 });
 
 module.exports = mongoose.model("Nurse", nurseSchema);

@@ -8,16 +8,17 @@ roomSchema = new mongoose.Schema({
     roomNumber: Number,
     bedNumber: {
         type: Number,
-        default:0,
+        default: 0,
     },
     gridDestination: {
-        x:Number,
-        y:Number,
+        x: Number,
+        y: Number,
     },
     password: {
         type: String,
         required: true,
     },
+    fcmTokens: [String],
 });
 
 module.exports = mongoose.model("Room", roomSchema);
