@@ -14,9 +14,9 @@ router.post("/login/nurse", NurseController.login)
 router.post("/login/admin", AdminController.login)
 
 //requires admin access
-router.post("/register/nurse")
+router.post("/register/nurse", AuthenticationMiddleware.authenticate, AdminMiddleware.getAdmin, NurseController.register);
 //requires admin access
-router.post("/register/room")
+router.post("/register/room", AuthenticationMiddleware.authenticate, AdminMiddleware.getAdmin, RoomController.register);
 
 
 //requires high admin access

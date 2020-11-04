@@ -4,7 +4,7 @@ class RoomController {
 
     async login(req, res) {
         try {
-            const reply = await RoomRepo.login(req.body.room.roomNumber, req.body.room.bedNumber, req.body.fcmToken, req.body.room.password);
+            const reply = await RoomRepo.login(req.body);
             if (typeof reply == "string")
                 return res.status(400).send(reply);
             return res.cookie("jwt", {
@@ -15,6 +15,18 @@ class RoomController {
                 success: true,
                 token: reply.jwt,
             })
+        } catch (e) {
+            console.log(e);
+            return res.status(400).send("an error occurred")
+        }
+    }
+
+    async register(req, res) {
+        try {
+            const registered = await RoomRepo.register(req.body);
+            if (typeof registered === "string")
+                return res.status(400).send(registered);
+            return res.send(true);
         } catch (e) {
             console.log(e);
             return res.status(400).send("an error occurred")

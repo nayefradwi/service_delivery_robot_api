@@ -16,7 +16,6 @@ class AdminRepo {
 
     async login(email, password){
         const admin = await this.getAdminByEmail(email);
-        console.log(admin)
         if(!admin)
             return "email not found";
         if(admin.isLoggedIn)

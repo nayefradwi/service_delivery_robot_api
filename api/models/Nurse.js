@@ -12,7 +12,6 @@ nurseSchema = new mongoose.Schema({
     },
     fcmToken:{
         type:String,
-        required: true,
     },
     isLoggedIn:{
         type:Boolean,
