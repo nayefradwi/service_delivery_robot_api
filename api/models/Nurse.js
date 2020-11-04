@@ -14,6 +14,10 @@ nurseSchema = new mongoose.Schema({
         type:String,
         required: true,
     },
+    isLoggedIn:{
+        type:Boolean,
+        default:false,
+    }
 });
 
 module.exports = mongoose.model("Nurse", nurseSchema);
