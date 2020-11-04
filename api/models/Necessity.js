@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 necessitySchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required:true,
+    },
     iconUrl: String,
 });
 

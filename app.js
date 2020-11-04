@@ -9,6 +9,7 @@ const DATABASE_URL =  process.env.DB_URL||"mongodb://localhost/senior"
 const indexRouter = require("./api/routes/index");
 const hospitalRouter = require("./api/routes/hospital");
 const nurseRouter = require("./api/routes/nurse");
+const necessityRouter = require("./api/routes/necessity")
 app.use(parser.json());
 app.use(cp());
 
@@ -25,6 +26,7 @@ mongoose.connect(DATABASE_URL, {
 app.use(indexRouter);
 app.use("/hospitals",hospitalRouter);
 app.use("/nurses",nurseRouter);
+app.use("/necessities", necessityRouter)
 
 const socketIO = new io(app);
 socketIO.server.listen(6969, () => console.log("server started"))
