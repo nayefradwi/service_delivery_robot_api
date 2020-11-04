@@ -56,8 +56,34 @@ class NurseRepo {
         return "unknown error";
     }
 
+    async edit(nurse, newNurse) {
+        if (newNurse.nurseId.toString() !== nurse.nurseId.toString()) {
+            const otherNurse = await this.getNurseFromNurseId(newNurse.nurseId)
+            if (otherNurse)
+                return "nurse id already exists"
+        }
+        nurse.nurseId = newNurse.nurseId;
+        nurse.hospital = newNurse.hospital;
+        const edited = await nurse.save();
+        if (!edited)
+            return "failed to edit nurse";
+        return true;
+    }
+
     async deleteAllNursesByHospitalId(hospitalId) {
         return Nurse.delete({hospital: hospitalId});
+    }
+
+    async getNurseByObjectId(id) {
+        return Nurse.findOne({_id: id}, {password: 0}).populate("hospital")
+    }
+
+    async getNursesByHospitalId(hospitalId, skip, limit){
+        return Nurse.find({hospital:hospitalId}, {password:0, hospital:0}).skip(parseInt(skip)).limit(parseInt(limit));
+    }
+
+    async delete(id){
+        return Nurse.deleteOne({_id:id});
     }
 }
 

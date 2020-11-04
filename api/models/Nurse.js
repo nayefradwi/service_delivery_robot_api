@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
 
 nurseSchema = new mongoose.Schema({
-    nurseId: String,
+    nurseId: {
+        type:String,
+        required: true,
+    },
     hospital: {
         type: mongoose.Types.ObjectId,
         ref: "Hospital",
+        required: true
     },
     password: {
         type: String,
