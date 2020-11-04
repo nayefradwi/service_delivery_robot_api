@@ -10,6 +10,8 @@ const indexRouter = require("./api/routes/index");
 const hospitalRouter = require("./api/routes/hospital");
 const nurseRouter = require("./api/routes/nurse");
 const necessityRouter = require("./api/routes/necessity")
+const roomRouter = require("./api/routes/room")
+const mapRouter = require("./api/routes/map")
 app.use(parser.json());
 app.use(cp());
 
@@ -27,6 +29,8 @@ app.use(indexRouter);
 app.use("/hospitals",hospitalRouter);
 app.use("/nurses",nurseRouter);
 app.use("/necessities", necessityRouter)
+app.use("/rooms", roomRouter)
+app.use("/maps", mapRouter)
 
 const socketIO = new io(app);
 socketIO.server.listen(6969, () => console.log("server started"))

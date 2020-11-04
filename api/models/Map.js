@@ -9,4 +9,6 @@ mapSchema = new mongoose.Schema({
     },
 });
 
+mapSchema.index({floorNumber:1, hospital:1},{unique:true});
+
 module.exports = mongoose.model("Map", mapSchema);
