@@ -54,7 +54,7 @@ class MapController {
         try {
             const maps = await MapRepo.getListOfMaps(req.params.hospitalId);
             if (!maps)
-                return res.status(400).send("failed to delete map")
+                return res.status(400).send("failed to fetch maps")
             return res.send(maps)
         } catch (e) {
             console.log(e);

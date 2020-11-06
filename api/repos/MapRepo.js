@@ -1,5 +1,5 @@
 const Map = require("../models/Map")
-
+const RoomRepo = require("../repos/RoomRepo")
 class MapRepo {
 
     async deleteAllMapsByHospitalId(hospitalId) {
@@ -40,10 +40,12 @@ class MapRepo {
     }
 
     async deleteMap(mapId) {
+        await RoomRepo.deleteAllWithMapId(mapId)
         return Map.deleteOne({_id: mapId});
     }
 
     async getListOfMaps(hospitalId) {
+
         return Map.find({hospital: hospitalId})
     }
 }

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 roomSchema = new mongoose.Schema({
     map: {
         type: mongoose.Types.ObjectId,
@@ -20,5 +20,8 @@ roomSchema = new mongoose.Schema({
     },
     fcmTokens: [String],
 });
+
+roomSchema.index({map:1,roomNumber:1,bedNumber:1, gridDestination:1},{unique:true});
+roomSchema.plugin(deepPopulate)
 
 module.exports = mongoose.model("Room", roomSchema);

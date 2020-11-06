@@ -33,6 +33,56 @@ class RoomController {
         }
     }
 
+    async getRoom(req,res){
+        try {
+            const room = await RoomRepo.getRoom(req.params.roomId);
+            if (!room)
+                return res.status(400).send("room not found")
+            return res.send(room)
+        } catch (e) {
+            console.log(e);
+            return res.status(400).send("an error occurred")
+        }
+    }
+
+    async editRoom(req,res){
+        try {
+            const room = await RoomRepo.editRoom(req.room,req.body);
+            if(typeof room === "string")
+                return res.status(400).send(room)
+            if (!room)
+                return res.status(400).send("failed to edit room")
+            return res.send(true)
+        } catch (e) {
+            console.log(e);
+            return res.status(400).send("an error occurred")
+        }
+    }
+
+    async deleteRoom(req,res){
+        try {
+            const roomDeleted = await RoomRepo.deleteRoom(req.params.roomId);
+            if (!roomDeleted)
+                return res.status(400).send("failed to delete room")
+            return res.send(true)
+        } catch (e) {
+            console.log(e);
+            return res.status(400).send("an error occurred")
+        }
+    }
+
+    async getListOfRoomsByMapId(req,res){
+        try {
+            const rooms = await RoomRepo.getListOfRoomsByMapId(req.params.mapId);
+            if (!rooms)
+                return res.status(400).send("failed to fetch rooms")
+            return res.send(rooms)
+        } catch (e) {
+            console.log(e);
+            return res.status(400).send("an error occurred")
+        }
+    }
+
 
 }
 
