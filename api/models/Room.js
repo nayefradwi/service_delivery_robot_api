@@ -8,7 +8,7 @@ roomSchema = new mongoose.Schema({
     roomNumber: Number,
     bedNumber: {
         type: Number,
-        default: 0,
+        default: 1,
     },
     gridDestination: {
         x: Number,

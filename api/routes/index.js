@@ -5,6 +5,7 @@ const NurseController = require("../controllers/NurseController");
 const AdminController = require("../controllers/AdminController");
 const AdminMiddleware = require("../middleware/AdminMiddleware");
 const AuthenticationMiddleware = require("../middleware/AuthenticationMiddleware")
+const AuthenticationController = require("../controllers/AuthenticationController")
 
 router.post("/login/room", RoomController.login)
 
@@ -12,6 +13,8 @@ router.post("/login/nurse", NurseController.login)
 
 
 router.post("/login/admin", AdminController.login)
+
+router.get("/authentication", AuthenticationController.authenticate)
 
 //requires admin access
 router.post("/register/nurse", AuthenticationMiddleware.authenticate, AdminMiddleware.getAdmin, NurseController.register);
