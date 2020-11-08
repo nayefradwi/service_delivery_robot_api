@@ -7,21 +7,27 @@ taskSchema = new mongoose.Schema({
     },
     orderType: {
         type: String,
-        enum: ["delivery","receive"],
+        enum: ["delivery", "receive"],
         default: "delivery"
     },
-    necessity:{
+    necessity: {
         type: mongoose.Types.ObjectId,
         ref: "Necessity",
     },
-    status:{
-      type:String,
-      enum: ["pending","waiting for approval", "completed"],
-      default: "waiting for approval"
+    status: {
+        type: String,
+        enum: ["pending", "waiting for approval", "completed", "robot status"],
+        default: "waiting for approval"
     },
-    description:String,
-    creationDate:Date,
-    lastTimeStatusUpdated:Date,
+    description: String,
+    creationDate: {
+        type: Date,
+        default: Date.now(),
+    },
+    lastTimeStatusUpdated: {
+        type: Date,
+        default: Date.now(),
+    },
 });
 
 module.exports = mongoose.model("Task", taskSchema);
