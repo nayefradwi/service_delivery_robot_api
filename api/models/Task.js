@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 taskSchema = new mongoose.Schema({
     room: {
         type: mongoose.Types.ObjectId,
@@ -29,5 +29,15 @@ taskSchema = new mongoose.Schema({
         default: Date.now(),
     },
 });
+taskSchema.plugin(deepPopulate,{
+    populate:{
+        "room.map":{
+            select:['_id','imageUrl','floorNumber']
+        },
+        "room":{
+            select: ["bedNumber","map","gridDestination","roomNumber"]
+        }
+    }
+})
 
 module.exports = mongoose.model("Task", taskSchema);
