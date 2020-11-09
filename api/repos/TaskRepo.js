@@ -18,7 +18,16 @@ class TaskRepo {
     }
 
     async getTasks(id,skip,limit){
-        return Task.find({room:id}).skip(parseInt(skip)).limit(parseInt(limit)).populate("room").populate("necessity");
+        return Task.find({room:id}).skip(parseInt(skip)).limit(parseInt(limit)).populate("room",{password:0}).populate("necessity");
+    }
+
+    async acceptTask(task){
+        task.status = "accepted";
+        return await task.save();
+    }
+
+    async getTask(id){
+        return Task.findOne({_id:id}).populate("room",{password:0}).populate("necessity");
     }
 }
 module.exports = new TaskRepo();

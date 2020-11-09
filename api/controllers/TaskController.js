@@ -38,6 +38,30 @@ class TaskController {
             return res.status(400).send("an error occurred")
         }
     }
+
+    async acceptTask(req, res){
+        try {
+            const taskDeleted = await TaskRepo.acceptTask(req.task);
+            if (!taskDeleted)
+                return res.status(400).send("failed to accept")
+            return res.send(true)
+        } catch (e) {
+            console.log(e);
+            return res.status(400).send("an error occurred")
+        }
+    }
+
+    async getTask(req, res){
+        try {
+            const task = await TaskRepo.getTask(req.params.taskId);
+            if (!task)
+                return res.status(400).send("task not found")
+            return res.json(task)
+        } catch (e) {
+            console.log(e);
+            return res.status(400).send("an error occurred")
+        }
+    }
 }
 
 module.exports = new TaskController()

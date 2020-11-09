@@ -16,7 +16,7 @@ taskSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["pending", "waiting for approval", "completed", "robot status"],
+        enum: ["pending", "waiting for approval", "completed", "robot status", "accepted", "rejected"],
         default: "waiting for approval"
     },
     description: String,
