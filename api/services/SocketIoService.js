@@ -1,5 +1,6 @@
 const socketIO = require("socket.io");
 const http = require("http");
+let socketService;
 
 class SocketIoService {
     server;
@@ -21,12 +22,15 @@ class SocketIoService {
                 socket.join(taskId);
                 console.log(taskId);
                 // todo before passing the image call the microservice to generate a new one
-                for (let i = 0; i<100; i++)
-                {
+                for (let i = 0; i < 100; i++) {
                     this.io.in(taskId).emit("image", i.toString())
                     await this.sleep(1000);
                 }
             });
+
+            // socket.on(taskId, ()=>{
+            //
+            // })
 
             socket.on("leave", taskId => {
                 socket.leave(taskId);
@@ -34,6 +38,21 @@ class SocketIoService {
         })
     }
 
+    send69() {
+        this.io.emit("image", "69")
+    }
+
+
 }
 
-module.exports = SocketIoService;
+function getInstance(app) {
+    if (!socketService) {
+        if (!app)
+            throw "cannot initialize socket service without app instance";
+        socketService = new SocketIoService(app)
+    }
+    return socketService;
+}
+
+
+module.exports = getInstance;

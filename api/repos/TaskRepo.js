@@ -1,5 +1,6 @@
 const Task = require("../models/Task");
-
+const socketService = require("../services/SocketIoService");
+const io = socketService()
 class TaskRepo {
     async createTask(task, token) {
         const taskCreated = Task.create({

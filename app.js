@@ -2,7 +2,8 @@ const express = require("express");
 const cp = require('cookie-parser');
 const parser = require("body-parser");
 const app = express();
-const io = require("./api/services/SocketIoService");
+const socketService = require("./api/services/SocketIoService");
+const io = socketService(app)
 const mongoose = require("mongoose");
 require("dotenv").config();
 const DATABASE_URL =  process.env.DB_URL||"mongodb://localhost/senior"
@@ -34,5 +35,4 @@ app.use("/rooms", roomRouter)
 app.use("/maps", mapRouter)
 app.use("/tasks",taskRouter);
 
-const socketIO = new io(app);
-socketIO.server.listen(6969, () => console.log("server started"))
+io.server.listen(6969, () => console.log("server started"))
