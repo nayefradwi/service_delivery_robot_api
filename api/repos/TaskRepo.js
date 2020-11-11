@@ -2,6 +2,7 @@ const Task = require("../models/Task");
 const socketService = require("../services/SocketIoService");
 const io = socketService()
 const fetch = require("node-fetch");
+const notificationService = require("../services/NotificationService")
 
 class TaskRepo {
     async createTask(task, token) {
@@ -45,6 +46,7 @@ class TaskRepo {
             //todo change 1 to robotId
             io.sendPathAndTaskToRobot(1, reply.commands, task._id, "DESTINATION" + task.room.map.floorNumber.toString() +
                 task.room.roomNumber.toString() + task.room.bedNumber.toString())
+            notificationService.sendNotifications(`Order Accepted!`, `Nurse has accepted your order for ${task.necessity.name}`,task.room.fcmTokens)
             return true;
         } catch (e) {
             console.log(e)

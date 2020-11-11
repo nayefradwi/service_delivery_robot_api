@@ -14,8 +14,10 @@ const necessityRouter = require("./api/routes/necessity")
 const roomRouter = require("./api/routes/room")
 const mapRouter = require("./api/routes/map")
 const taskRouter = require("./api/routes/task")
+const notificationService = require("./api/services/NotificationService")
 app.use(parser.json());
 app.use(cp());
+notificationService.initialize();
 
 const {createAdmin} = require("./api/seed")
 

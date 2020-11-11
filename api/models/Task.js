@@ -35,7 +35,7 @@ taskSchema.plugin(deepPopulate,{
             select:['_id','imageUrl','floorNumber']
         },
         "room":{
-            select: ["bedNumber","map","gridDestination","roomNumber"]
+            select: ["bedNumber","map","gridDestination","roomNumber", "fcmTokens"]
         }
     }
 })
