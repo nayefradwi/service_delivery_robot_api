@@ -41,7 +41,6 @@ class SocketIoService {
     }
 
     async robotMoved(taskId) {
-        // todo before passing the image call the microservice to generate a new one
         const response = await fetch("http://127.0.0.1:8000/robotMovement", {
             method: 'POST',
         });
@@ -54,12 +53,6 @@ class SocketIoService {
         this.io.in(robotId).emit("path", path)
         this.io.in(robotId).emit("taskId",taskId)
         this.io.in(robotId).emit("destinationName",destinationName)
-        console.log("path sent: ")
-        console.log(path)
-        console.log("taskId sent: ")
-        console.log(taskId)
-        console.log("destinationName sent: ")
-        console.log(destinationName)
     }
 
      getBase64TextImage(){

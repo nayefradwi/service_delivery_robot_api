@@ -55,7 +55,6 @@ class TaskRepo {
     }
 
     async getTask(id) {
-        io.robotMoved(1).then(r => console.log("moved")).catch((e)=>console.log("movement failed"))
         return Task.findOne({_id: id}).populate("room").populate("necessity").deepPopulate("room.map", "map.password:0");
     }
 }
