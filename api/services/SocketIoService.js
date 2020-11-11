@@ -1,7 +1,10 @@
 const socketIO = require("socket.io");
 const http = require("http");
 let socketService;
-
+const fs = require("fs")
+const path = require('path');
+const filePath = path.join(__dirname,"\\base64.txt")
+const fetch = require("node-fetch");
 class SocketIoService {
     server;
     io;
@@ -18,32 +21,52 @@ class SocketIoService {
 
             //todo create a socket channel to receive requests/sensor data from the robot
             //todo post the sensor data to the micro service
-            socket.on("join", async taskId => {
+            socket.on("join", taskId => {
                 socket.join(taskId);
-                console.log(taskId);
-                // todo before passing the image call the microservice to generate a new one
-                for (let i = 0; i < 100; i++) {
-                    this.io.in(taskId).emit("image", i.toString())
-                    await this.sleep(1000);
-                }
             });
 
-            // socket.on(taskId, ()=>{
-            //
-            // })
+            //creates private robot transmission channels
+            socket.on("join robot", robotId => {
+                socket.join(robotId);
+                console.log(robotId);
+            })
 
             socket.on("leave", taskId => {
                 socket.leave(taskId);
-            })
+            });
+
+            //called by the robot
+            socket.on("robot moved", async taskId => await this.robotMoved(taskId))
         })
     }
 
-    send69() {
-        this.io.emit("image", "69")
+    async robotMoved(taskId) {
+        // todo before passing the image call the microservice to generate a new one
+        const response = await fetch("http://127.0.0.1:8000/robotMovement", {
+            method: 'POST',
+        });
+        const reply = await response.json();
+        this.io.in(taskId).emit("image", reply.image);
+        console.log("moved robot")
     }
 
+    sendPathAndTaskToRobot(robotId, path,taskId, destinationName) {
+        this.io.in(robotId).emit("path", path)
+        this.io.in(robotId).emit("taskId",taskId)
+        this.io.in(robotId).emit("destinationName",destinationName)
+        console.log("path sent: ")
+        console.log(path)
+        console.log("taskId sent: ")
+        console.log(taskId)
+        console.log("destinationName sent: ")
+        console.log(destinationName)
+    }
 
+     getBase64TextImage(){
+        return fs.readFileSync(filePath,"utf8")
+    }
 }
+
 
 function getInstance(app) {
     if (!socketService) {

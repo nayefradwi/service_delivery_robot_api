@@ -6,7 +6,9 @@ class TaskController {
             const taskCreated = await TaskRepo.createTask(req.body, req.token);
             if (typeof taskCreated === "string")
                 return res.status(400).send(taskCreated)
-            return res.send(true)
+            if(!taskCreated)
+                return res.status(400).send("failed to create task")
+            return res.send(taskCreated)
         } catch (e) {
             console.log(e);
             return res.status(400).send("an error occurred")
