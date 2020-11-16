@@ -28,6 +28,9 @@ mongoose.connect(DATABASE_URL, {
     useFindAndModify: false
 });
 
+app.get("/",(req,res)=>res.send("hello world"))
+app.get("/index",(req,res)=>res.send("hello"))
+
 // createAdmin();
 app.use(indexRouter);
 app.use("/hospitals",hospitalRouter);

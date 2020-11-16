@@ -31,6 +31,7 @@ class TaskRepo {
             if (task.status === "accepted")
                 return null;
             task.status = "accepted";
+            task.lastTimeStatusUpdated = Date.now();
             const taskEdited = await task.save();
             if (!taskEdited)
                 return null;
