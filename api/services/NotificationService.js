@@ -19,7 +19,8 @@ const serviceAccount = require("../../config/" + FILENAME);
 //     credential: admin.credential.cert(serviceAccount),
 //     databaseURL: "https://senior-project-46cb5.firebaseio.com"
 // }
-
+console.log("api :")
+console.log(process.env.FIREBASE_API)
 const config = process.env.FIREBASE_API !== undefined ? {
     credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_API)),
     databaseURL: "https://senior-project-46cb5.firebaseio.com",
