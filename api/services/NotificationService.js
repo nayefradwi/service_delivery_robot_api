@@ -5,27 +5,8 @@ try {
     serviceAccount = require("../../config/" + FILENAME);
 }catch (e) {
 }
-// const config = process.env.TYPE !== undefined ? {
-//     credential: admin.credential.cert({
-//         type: process.env.TYPE,
-//         project_id: process.env.PROJECT_ID,
-//         private_key_id: process.env.PRIVATE_KEY_ID,
-//         private_key: process.env.PRIVATE_KEY,
-//         client_email: process.env.CLIENT_EMAIL,
-//         client_id: process.env.CLIENT_ID,
-//         auth_uri: process.env.AUTH_URI,
-//         token_uri: process.env.TOKEN_URI,
-//         auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
-//         client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
-//     }),
-//     databaseURL: "https://senior-project-46cb5.firebaseio.com"
-// } : {
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: "https://senior-project-46cb5.firebaseio.com"
-// }
 
-console.log("api :")
-console.log(process.env.FIREBASE_API)
+
 const config = process.env.FIREBASE_API !== undefined ? {
     credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_API)),
     databaseURL: "https://senior-project-46cb5.firebaseio.com",
