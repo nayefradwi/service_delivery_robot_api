@@ -7,6 +7,7 @@ const io = socketService(app)
 const mongoose = require("mongoose");
 require("dotenv").config();
 const DATABASE_URL =  process.env.DB_URL||"mongodb://localhost/senior"
+const PORT = process.env.PORT || 6969
 const indexRouter = require("./api/routes/index");
 const hospitalRouter = require("./api/routes/hospital");
 const nurseRouter = require("./api/routes/nurse");
@@ -40,4 +41,4 @@ app.use("/rooms", roomRouter)
 app.use("/maps", mapRouter)
 app.use("/tasks",taskRouter);
 
-io.server.listen(6969, () => console.log("server started"))
+io.server.listen(PORT, () => console.log("server started on port: "+ PORT.toString()))
