@@ -1,6 +1,10 @@
 const admin = require('firebase-admin');
-const FILENAME = process.env.FIREBASE_PRIVATE_API_KEY || "senior-project-46cb5-firebase-adminsdk-f115h-821ef108cd.json"
-const serviceAccount = require("../../config/" + FILENAME);
+let serviceAccount;
+try {
+    const FILENAME = process.env.FIREBASE_PRIVATE_API_KEY || "senior-project-46cb5-firebase-adminsdk-f115h-821ef108cd.json"
+    serviceAccount = require("../../config/" + FILENAME);
+}catch (e) {
+}
 // const config = process.env.TYPE !== undefined ? {
 //     credential: admin.credential.cert({
 //         type: process.env.TYPE,
