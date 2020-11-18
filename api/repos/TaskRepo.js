@@ -43,6 +43,7 @@ class TaskRepo {
                     image: task.room.map.imageUrl,
                 }),
             });
+            console.log(reply)
             const reply = await response.json();
             //todo change 1 to robotId
             io.sendPathAndTaskToRobot(1, reply.commands, task._id, "DESTINATION" + task.room.map.floorNumber.toString() +
