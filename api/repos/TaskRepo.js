@@ -35,7 +35,7 @@ class TaskRepo {
             const taskEdited = await task.save();
             if (!taskEdited)
                 return null;
-            const response = await fetch("http://127.0.0.1:8000/commands", {
+            const response = await fetch("https://senior-micro-service.herokuapp.com/commands", {
                 method: 'POST',
                 body: JSON.stringify({
                     x: task.room.gridDestination.x,

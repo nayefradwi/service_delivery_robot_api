@@ -41,7 +41,7 @@ class SocketIoService {
     }
 
     async robotMoved(taskId) {
-        const response = await fetch("http://127.0.0.1:8000/robotMovement", {
+        const response = await fetch("https://senior-micro-service.herokuapp.com/robotMovement", {
             method: 'POST',
         });
         const reply = await response.json();
