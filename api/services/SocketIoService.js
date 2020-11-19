@@ -22,6 +22,8 @@ class SocketIoService {
             //todo create a socket channel to receive requests/sensor data from the robot
             //todo post the sensor data to the micro service
             socket.on("join", taskId => {
+                console.log("phone joined on: ")
+                console.log(taskId)
                 socket.join(taskId);
             });
 
@@ -32,8 +34,6 @@ class SocketIoService {
             })
 
             socket.on("leave", taskId => {
-                console.log("phone joined on: ")
-                console.log(taskId)
                 socket.leave(taskId);
             });
 
