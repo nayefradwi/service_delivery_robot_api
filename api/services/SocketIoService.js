@@ -32,6 +32,8 @@ class SocketIoService {
             })
 
             socket.on("leave", taskId => {
+                console.log("phone joined on: ")
+                console.log(taskId)
                 socket.leave(taskId);
             });
 
