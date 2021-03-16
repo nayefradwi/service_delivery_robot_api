@@ -3,7 +3,7 @@ const socketService = require("../services/SocketIoService");
 const io = socketService();
 const fetch = require("node-fetch");
 const notificationService = require("../services/NotificationService");
-const { mongo, Mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
 class TaskRepo {
   async createTask(task, token) {
@@ -17,9 +17,15 @@ class TaskRepo {
     return await this.getTask(taskCreated._id);
   }
 
+  // deleteTaskNurse
   async deleteTask(id) {
-    //todo initiate emergency stop for the robot
     return Task.deleteOne({ _id: id });
+  }
+
+  async deleteTaskNurse(id, hospital) {
+    const task = await this.getTaskOfHospital(id, hospital);
+    if (!task) return null;
+    return Task.deleteOne({ _id: task._id });
   }
 
   async getTasks(id, skip, limit) {
@@ -124,6 +130,55 @@ class TaskRepo {
     ]);
 
     return tasks;
+  }
+
+  async getTaskOfHospital(taskId, hospitalId) {
+    taskId = mongoose.Types.ObjectId(taskId);
+    const tasks = await Task.aggregate([
+      {
+        $lookup: {
+          from: "necessities",
+          localField: "necessity",
+          foreignField: "_id",
+          as: "necessity",
+        },
+      },
+      { $unwind: "$necessity" },
+      {
+        $lookup: {
+          from: "rooms",
+          localField: "room",
+          foreignField: "_id",
+          as: "room",
+        },
+      },
+      { $unwind: "$room" },
+      {
+        $lookup: {
+          from: "maps",
+          localField: "room.map",
+          foreignField: "_id",
+          as: "room.map",
+        },
+      },
+      { $unwind: "$room.map" },
+      {
+        $lookup: {
+          from: "hospitals",
+          localField: "room.map.hospital",
+          foreignField: "_id",
+          as: "room.map.hospital",
+        },
+      },
+      { $unwind: "$room.map.hospital" },
+      {
+        $match: {
+          $and: [{ "room.map.hospital._id": hospitalId }, { _id: taskId }],
+        },
+      },
+    ]);
+
+    return tasks[0];
   }
 }
 

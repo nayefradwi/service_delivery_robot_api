@@ -32,6 +32,13 @@ router.delete(
   TaskController.deleteTask
 );
 
+router.delete(
+  "/:taskId/nurse",
+  AuthenticationMiddleware.authenticate,
+  NurseMiddleware.getNurse,
+  TaskController.deleteTaskNurse
+);
+
 router.get(
   "/",
   AuthenticationMiddleware.authenticate,

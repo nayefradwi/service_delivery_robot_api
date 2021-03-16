@@ -24,6 +24,20 @@ class TaskController {
     }
   }
 
+  async deleteTaskNurse(req, res) {
+    try {
+      const taskDeleted = await TaskRepo.deleteTaskNurse(
+        req.params.taskId,
+        req.nurse.hospital._id
+      );
+      if (!taskDeleted) return res.status(400).send("failed to delete");
+      return res.send(true);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).send("an error occurred");
+    }
+  }
+
   async getTasksOfRoom(req, res) {
     try {
       let skip = req.query.skip === undefined ? 0 : req.query.skip;
