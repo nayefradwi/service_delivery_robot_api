@@ -83,36 +83,47 @@ class TaskRepo {
   }
 
   async getTasksForNurse(hospitalId) {
-    return Task.aggregate([
+    const tasks = await Task.aggregate([
+      {
+        $lookup: {
+          from: "necessities",
+          localField: "necessity",
+          foreignField: "_id",
+          as: "necessity",
+        },
+      },
+      { $unwind: "$necessity" },
       {
         $lookup: {
           from: "rooms",
           localField: "room",
           foreignField: "_id",
-          as: "rooms",
+          as: "room",
         },
       },
-      { $unwind: "$rooms" },
+      { $unwind: "$room" },
       {
         $lookup: {
           from: "maps",
-          localField: "rooms.map",
+          localField: "room.map",
           foreignField: "_id",
-          as: "maps",
+          as: "room.map",
         },
       },
-      { $unwind: "$maps" },
+      { $unwind: "$room.map" },
       {
         $lookup: {
           from: "hospitals",
-          localField: "maps.hospital",
+          localField: "room.map.hospital",
           foreignField: "_id",
-          as: "hospitals",
+          as: "room.map.hospital",
         },
       },
-      { $unwind: "$hospitals" },
-      { $match: { "hospitals._id": hospitalId } },
+      { $unwind: "$room.map.hospital" },
+      { $match: { "room.map.hospital._id": hospitalId } },
     ]);
+
+    return tasks;
   }
 }
 
