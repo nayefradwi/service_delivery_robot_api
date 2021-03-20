@@ -18,13 +18,19 @@ class SocketIoService {
   constructor(app) {
     this.server = http.createServer(app);
     this.io = socketIO(this.server);
+
     this.io.on("connection", (socket) => {
+      console.log("connected");
       //todo create a socket channel to receive requests/sensor data from the robot
       //todo post the sensor data to the micro service
       socket.on("join", (floorId) => {
         console.log("phone joined on: ");
         console.log(floorId);
         socket.join(floorId);
+      });
+
+      socket.on("disconnect", function () {
+        console.log("Got disconnected!");
       });
 
       //creates private robot transmission channels
@@ -50,10 +56,10 @@ class SocketIoService {
     const response = await fetch(MICROSERVICE_URL, {
       method: "POST",
     });
-    // console.log(response);
-    // const reply = await response.json();
-    this.io.to(floorId).emit("image", this.getBase64TextImage());
-    console.log("moved robot");
+    const reply = await response.json();
+    // console.log(reply);
+    this.io.to(floorId).emit("image", reply.image);
+    // console.log("moved robot");
   }
 
   sendPathAndTaskToRobot(robotId, path, floorId, destinationName) {
