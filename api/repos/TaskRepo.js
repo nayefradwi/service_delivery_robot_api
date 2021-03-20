@@ -4,6 +4,8 @@ const io = socketService();
 const fetch = require("node-fetch");
 const notificationService = require("../services/NotificationService");
 const mongoose = require("mongoose");
+const MICROSERVICE_URL = "http://127.0.0.1:8000/commands";
+// const MICROSERVICE_URL = "https://senior-micro-service.herokuapp.com/commands"
 
 class TaskRepo {
   async createTask(task, token) {
@@ -40,38 +42,38 @@ class TaskRepo {
   async acceptTask(task) {
     try {
       if (task.status === "accepted") return null;
-      task.status = "accepted";
+      task.status = "pending";
       task.lastTimeStatusUpdated = Date.now();
       const taskEdited = await task.save();
       if (!taskEdited) return null;
-      const response = await fetch(
-        "https://senior-micro-service.herokuapp.com/commands",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            x: task.room.gridDestination.x,
-            y: task.room.gridDestination.y,
-            image: task.room.map.imageUrl,
-          }),
-        }
-      );
-      console.log(response);
-      const reply = await response.json();
-      //todo change 1 to robotId
-      io.sendPathAndTaskToRobot(
-        1,
-        reply.commands,
-        task._id,
-        "DESTINATION" +
-          task.room.map.floorNumber.toString() +
-          task.room.roomNumber.toString() +
-          task.room.bedNumber.toString()
-      );
-      notificationService.sendNotifications(
-        `Order Accepted!`,
-        `Nurse has accepted your order for ${task.necessity.name}`,
-        task.room.fcmTokens
-      );
+      fetch(MICROSERVICE_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          x: task.room.gridDestination.x,
+          y: task.room.gridDestination.y,
+          image: task.room.map.imageUrl,
+        }),
+      }).then(async (response) => {
+        const reply = await response.json();
+        console.log(reply);
+
+        //todo change 1 to robotId
+        io.sendPathAndTaskToRobot(
+          1,
+          reply.commands,
+          task.room.map._id,
+          "DESTINATION" +
+            task.room.map.floorNumber.toString() +
+            task.room.roomNumber.toString() +
+            task.room.bedNumber.toString()
+        );
+        notificationService.sendNotifications(
+          `Order Accepted!`,
+          `Nurse has accepted your order for ${task.necessity.name}`,
+          task.room.fcmTokens
+        );
+      });
+
       return true;
     } catch (e) {
       console.log(e);
