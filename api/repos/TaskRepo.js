@@ -4,7 +4,7 @@ const io = socketService();
 const fetch = require("node-fetch");
 const notificationService = require("../services/NotificationService");
 const mongoose = require("mongoose");
-const MICROSERVICE_URL = "http://127.0.0.1:8000/commands";
+const MICROSERVICE_URL_COMMANDS = "http://127.0.0.1:8000/commands";
 // const MICROSERVICE_URL = "https://senior-micro-service.herokuapp.com/commands"
 
 class TaskRepo {
@@ -46,9 +46,11 @@ class TaskRepo {
       task.lastTimeStatusUpdated = Date.now();
       const taskEdited = await task.save();
       if (!taskEdited) return null;
-      fetch(MICROSERVICE_URL, {
+      fetch(MICROSERVICE_URL_COMMANDS, {
         method: "POST",
         body: JSON.stringify({
+          currentX: 10,
+          currentY: 10,
           x: task.room.gridDestination.x,
           y: task.room.gridDestination.y,
           image: task.room.map.imageUrl,
