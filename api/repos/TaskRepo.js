@@ -41,7 +41,7 @@ class TaskRepo {
 
   async acceptTask(task) {
     try {
-      if (task.status === "accepted") return null;
+      if (task.status === "pending") return null;
       task.status = "pending";
       task.lastTimeStatusUpdated = Date.now();
       const taskEdited = await task.save();
@@ -49,8 +49,8 @@ class TaskRepo {
       fetch(MICROSERVICE_URL_COMMANDS, {
         method: "POST",
         body: JSON.stringify({
-          currentX: 10,
-          currentY: 10,
+          currentX: 1,
+          currentY: 2,
           x: task.room.gridDestination.x,
           y: task.room.gridDestination.y,
           image: task.room.map.imageUrl,
@@ -80,6 +80,22 @@ class TaskRepo {
     } catch (e) {
       console.log(e);
       task.status = "waiting for approval";
+      await task.save();
+      return null;
+    }
+  }
+  async confirmTask(task) {
+    try {
+      if (task.status === "completed") return null;
+      task.status = "completed";
+      task.lastTimeStatusUpdated = Date.now();
+      const taskEdited = await task.save();
+      if (!taskEdited) return null;
+      io.confirmOrder(1);
+      return true;
+    } catch (e) {
+      console.log(e);
+      task.status = "pending";
       await task.save();
       return null;
     }

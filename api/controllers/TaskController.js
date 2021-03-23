@@ -62,6 +62,17 @@ class TaskController {
     }
   }
 
+  async confirmTask(req, res) {
+    try {
+      const taskDeleted = await TaskRepo.confirmTask(req.task);
+      if (!taskDeleted) return res.status(400).send("failed to confirm");
+      return res.send(true);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).send("an error occurred");
+    }
+  }
+
   async getTask(req, res) {
     try {
       const task = await TaskRepo.getTask(req.params.taskId);

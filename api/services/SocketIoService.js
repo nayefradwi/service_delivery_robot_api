@@ -8,6 +8,7 @@ const fetch = require("node-fetch");
 const MICROSERVICE_URL_ROBOT_MOVEMENT = "http://127.0.0.1:8000/robotMovement";
 const MICROSERVICE_URL_COMMANDS = "http://127.0.0.1:8000/commands";
 const mapRepo = require("../repos/MapRepo");
+// const taskRepo = require("../repos/TaskRepo");
 // const MICROSERVICE_URL = "https://senior-micro-service.herokuapp.com/robotMovement"
 class SocketIoService {
   server;
@@ -68,8 +69,8 @@ class SocketIoService {
       x: obstacleDetailsJson.endPosition[0],
       y: obstacleDetailsJson.endPosition[1],
       image: floor.imageUrl,
-      blockX: obstacleDetailsJson.blockPosition[0],
-      blockY: obstacleDetailsJson.blockPosition[1],
+      blockX: obstacleDetailsJson.blockPosition[0] || undefined,
+      blockY: obstacleDetailsJson.blockPosition[1] || undefined,
     });
     console.log(body);
     if (floor) {
@@ -105,6 +106,10 @@ class SocketIoService {
     this.io.in(robotId).emit("path", path);
     this.io.in(robotId).emit("taskId", floorId);
     this.io.in(robotId).emit("destinationName", destinationName);
+  }
+
+  confirmOrder(robotId) {
+    this.io.in(robotId).emit("robot confirm order", true);
   }
 
   getBase64TextImage() {

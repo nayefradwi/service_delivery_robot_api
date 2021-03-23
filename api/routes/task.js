@@ -59,6 +59,12 @@ router.post(
   TaskMiddleware.getTask,
   TaskController.acceptTask
 );
+router.post(
+  "/:taskId/confirmation",
+  AuthenticationMiddleware.authenticate,
+  TaskMiddleware.getTask,
+  TaskController.confirmTask
+);
 
 // router.post("/nurse", AuthenticationMiddleware.authenticate, NurseMiddleware.getNurse, TaskController.createTask)
 
