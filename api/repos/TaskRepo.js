@@ -4,7 +4,8 @@ const io = socketService();
 const fetch = require("node-fetch");
 const notificationService = require("../services/NotificationService");
 const mongoose = require("mongoose");
-const MICROSERVICE_URL_COMMANDS = "http://127.0.0.1:8000/commands";
+const MICROSERVICE_URL_COMMANDS =
+  "https://senior-micro-service.herokuapp.com/commands";
 // const MICROSERVICE_URL = "https://senior-micro-service.herokuapp.com/commands"
 
 class TaskRepo {

@@ -5,11 +5,14 @@ const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, "\\base64.txt");
 const fetch = require("node-fetch");
-const MICROSERVICE_URL_ROBOT_MOVEMENT = "http://127.0.0.1:8000/robotMovement";
-const MICROSERVICE_URL_COMMANDS = "http://127.0.0.1:8000/commands";
+// const MICROSERVICE_URL_ROBOT_MOVEMENT = "http://127.0.0.1:7000/robotMovement";
+// const MICROSERVICE_URL_COMMANDS = "http://127.0.0.1:7000/commands";
+const MICROSERVICE_URL_COMMANDS =
+  "https://senior-micro-service.herokuapp.com/commands";
+const MICROSERVICE_URL_ROBOT_MOVEMENT =
+  "https://senior-micro-service.herokuapp.com/robotMovement";
 const mapRepo = require("../repos/MapRepo");
 // const taskRepo = require("../repos/TaskRepo");
-// const MICROSERVICE_URL = "https://senior-micro-service.herokuapp.com/robotMovement"
 class SocketIoService {
   server;
   io;
