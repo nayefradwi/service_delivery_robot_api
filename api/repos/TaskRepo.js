@@ -50,8 +50,8 @@ class TaskRepo {
       fetch(MICROSERVICE_URL_COMMANDS, {
         method: "POST",
         body: JSON.stringify({
-          currentX: 1,
-          currentY: 2,
+          currentX: 0,
+          currentY: 0,
           x: task.room.gridDestination.x,
           y: task.room.gridDestination.y,
           image: task.room.map.imageUrl,

@@ -29,7 +29,7 @@ mongoose.connect(DATABASE_URL, {
   useFindAndModify: false,
 });
 
-app.get("/", (req, res) => res.send("hello world"));
+app.get("/", (req, res) => res.send("hello world v1.0.0"));
 app.get("/index", (req, res) => res.send("hello"));
 
 // createAdmin();
