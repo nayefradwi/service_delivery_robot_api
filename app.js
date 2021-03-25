@@ -30,7 +30,7 @@ mongoose.connect(DATABASE_URL, {
 });
 
 app.get("/", (req, res) => res.send("hello world v1.0.0"));
-app.get("/index", (req, res) => res.send("hello"));
+app.get("/index", (req, res) => res.send("hello world v1.0.0"));
 
 // createAdmin();
 app.use(indexRouter);
