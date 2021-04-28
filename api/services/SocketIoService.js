@@ -5,12 +5,12 @@ const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, "\\base64.txt");
 const fetch = require("node-fetch");
-// const MICROSERVICE_URL_ROBOT_MOVEMENT = "http://127.0.0.1:7000/robotMovement";
-// const MICROSERVICE_URL_COMMANDS = "http://127.0.0.1:7000/commands";
-const MICROSERVICE_URL_COMMANDS =
-  "https://senior-micro-service.herokuapp.com/commands";
-const MICROSERVICE_URL_ROBOT_MOVEMENT =
-  "https://senior-micro-service.herokuapp.com/robotMovement";
+const MICROSERVICE_URL_ROBOT_MOVEMENT = "http://127.0.0.1:7000/robotMovement";
+const MICROSERVICE_URL_COMMANDS = "http://127.0.0.1:7000/commands";
+// const MICROSERVICE_URL_COMMANDS =
+// "https://senior-micro-service.herokuapp.com/commands";
+// const MICROSERVICE_URL_ROBOT_MOVEMENT =
+// "https://senior-micro-service.herokuapp.com/robotMovement";
 const mapRepo = require("../repos/MapRepo");
 // const taskRepo = require("../repos/TaskRepo");
 class SocketIoService {
@@ -63,17 +63,24 @@ class SocketIoService {
     });
   }
   async getPath(obstacleDetailsJson) {
+    console.log("asked for path again");
     console.log(obstacleDetailsJson);
     obstacleDetailsJson = JSON.parse(obstacleDetailsJson);
     const floor = await mapRepo.getMap(obstacleDetailsJson.floorId);
     const body = JSON.stringify({
-      currentX: obstacleDetailsJson.currentPosition[0],
-      currentY: obstacleDetailsJson.currentPosition[1],
-      x: obstacleDetailsJson.endPosition[0],
-      y: obstacleDetailsJson.endPosition[1],
+      currentX: obstacleDetailsJson.currentPosition[1],
+      currentY: obstacleDetailsJson.currentPosition[0],
+      x: obstacleDetailsJson.endPosition[1],
+      y: obstacleDetailsJson.endPosition[0],
       image: floor.imageUrl,
-      blockX: obstacleDetailsJson.blockPosition[0] || undefined,
-      blockY: obstacleDetailsJson.blockPosition[1] || undefined,
+      blockX:
+        obstacleDetailsJson.blockPosition == null
+          ? undefined
+          : obstacleDetailsJson.blockPosition[1],
+      blockY:
+        obstacleDetailsJson.blockPosition == null
+          ? undefined
+          : obstacleDetailsJson.blockPosition[0],
     });
     console.log(body);
     if (floor) {
